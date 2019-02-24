@@ -1,0 +1,124 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/HighCharts/highcharts.js"></script>
+    <script src="~/Scripts/HighCharts/grouped-categories.js"></script>
+    <script>
+
+        $('#container').highcharts({
+            chart: {
+                type: 'bar',
+                width: 450
+            },
+            title: {
+                text: 'Stacked column chart'
+            },
+            xAxis: {
+                categories: [{
+                        name: "Возможных лидов",
+                        categories: ["Количество организаций", "Jane", "Joe"]
+                    }, {
+                        name: "Vegetable",
+                        categories: ["Smith", "Rou"]
+                    }, {
+                        name: "Potato",
+                        categories: ["Grou"]
+                    }]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total fruit consumption'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                //formatter: function () {
+                //    return '<b>' + this.x + '</b><br/>' +
+                //        this.series.name + ': ' + this.y + '<br/>' +
+                //        'Всего: ' + this.point.stackTotal;
+                //}
+
+                
+                
+            },
+            plotOptions: {
+                //bar: {
+                //    dataLabels: {
+                //        enabled: true
+                //    }
+                //},
+                //column: {
+                //    stacking: 'normal',
+                //    dataLabels: {
+                //        enabled: true,
+                //        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                //    }
+                //},
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                console.log(this.series.name);
+                                console.log(this);
+                            }
+                        }
+                    },
+                    //dataGrouping: {
+                    //    enabled: true
+                    //},
+                    //pointWidth: 20,
+                    //pointInterval: 20,
+                    //pointPadding: 10,
+                    //groupPadding: 0
+                    //dataGrouping: {
+                    //    enabled: false
+                    //}
+                }
+            },
+            series: [
+                {
+                    name: 'Количество',
+                    data: [{
+                        y: 1,
+                        color: '#BF0B23'
+                    }, { y: 2, color: '#0d233a' }, { y: 3, color: '#8bbc21'}, 4, 5, 6].reverse()
+                }
+            ]
+        });
+        var series2 = [{
+                name: 'John',
+                data: [15, 5]
+            }, {
+                name: 'Jane',
+                data: [-1, 2, 3, 2, 1]
+            }, {
+                name: 'Joe',
+                data: [-1, -1, 4, 4, 2, 5]
+            }];
+
+
+        var chart = $("#container").highcharts();
+    </script>
+}
+
+<h2>title</h2>
+
+<div id="container"></div>

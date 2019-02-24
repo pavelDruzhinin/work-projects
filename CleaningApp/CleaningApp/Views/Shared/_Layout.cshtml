@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/default.css")" rel="stylesheet" type="text/css" media="all" />
+    <!--[if IE 6]>
+<link href="default_ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+</head>
+<body>
+    <div id="header" class="container">
+        <div id="logo">
+            <h1><a href="#">Название<span>Компании</span></a></h1>
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="#" accesskey="1" title="">Главная</a></li>
+                <li><a href="#" accesskey="2" title="">Услуги</a></li>
+                <li><a href="#" accesskey="3" title="">Наши клиенты</a></li>
+                <li><a href="#" accesskey="4" title="">О нас</a></li>
+                <li><a href="#" accesskey="5" title="">Контакты</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="banner-wrapper">
+        <div id="slider">
+            <div id="banner-img">
+                <img src="@Url.Content("~/Content/images/15.png")" alt="" />
+            </div>
+            <div id="banner" class="container">
+                <h2>Уборка <span>помещений.</span></h2>
+                <p>Наша компания <strong>НазваниеКомпании </strong>является одной из ведущих компаний по уборке помещений.У нас есть много-многомного-многомного-многомного-многомного-многомного-многомного-многмного-многомного-многомного-много всего интересного:)</p>
+                <ol class="style1">
+                    <li><a href="#">Integer sit amet pede vel arcu aliquet pretium.</a></li>
+                    <li><a href="#">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</a></li>
+                    <li><a href="#">Phasellus nec erat sit amet nibh pellentesque congue.</a></li>
+                </ol>
+                <a href="#" class="button-style">Узнать больше</a>
+            </div>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="page" class="container">
+            <div class="container">
+                <h2 class="heading-title">Etiam rhoncus volutpat erat</h2>
+            </div>
+            <div id="content" class="container">
+                <div id="cbox1">
+                    <span class="posted-style">Praesent scelerisque</span>
+                    <a href="#">
+                        <img src="@Url.Content("~/Content/images/cleaning.png")" alt="" /></a>
+                    <h2>Fusce ultrices fringilla</h2>
+                    <p>Aliquam erat volutpat. Pellentesque tristique ante ut risus. Quisque dictum. Integer nisl risus, sagittis convallis, rutrum id, elementum congue, nibh. </p>
+                </div>
+                <div id="cbox2">
+                    <span class="posted-style">Donec dictum metus</span>
+                    <a href="#">
+                        <img src="images/img02.jpg" alt="" /></a>
+                    <h2>Cras vitae metus aliquam</h2>
+                    <p>Aliquam erat volutpat. Pellentesque tristique ante ut risus. Quisque dictum. Integer nisl risus, sagittis convallis, rutrum id, elementum congue, nibh. </p>
+                </div>
+                <div id="cbox3">
+                    <span class="posted-style">Etiam posuere augue</span>
+                    <a href="#">
+                        <img src="images/img03.jpg" alt="" /></a>
+                    <h2>Maecenas vitae orci vitae</h2>
+                    <p>Aliquam erat volutpat. Pellentesque tristique ante ut risus. Quisque dictum. Integer nisl risus, sagittis convallis, rutrum id, elementum congue, nibh. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="featured-wrapper">
+        @RenderBody()
+    </div>
+    <div id="prefooter">
+        <div id="footer" class="container">
+            <p>Copyright (c) 2013. All rights reserved. Design by <a href="#" title="Студия веб-дизайна WebDP">WebDP.</a></p>
+        </div>
+    </div>
+</body>
+</html>
+

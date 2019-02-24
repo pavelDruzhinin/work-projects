@@ -1,0 +1,385 @@
+﻿@section scripts
+{
+
+    <script>
+        var Canvas = (function () {
+
+            function Canvas(canvasDivId, options) {
+                this.canvasDiv = document.getElementById(canvasDivId);
+
+                this.canvas = createCanvas(options);
+
+                this.canvasDiv.appendChild(this.canvas);
+
+                this.context = this.canvas.getContext("2d");
+
+                //canvas.onmouseover = function (e) {
+                //    var mx = e.clientX - canvas.clientLeft;
+                //    var my = e.clientY - canvas.clientTop;
+
+                //    console.log("You in canvas");
+                //};
+
+                this.canvas.onclick = function (e) {
+                    console.log("You in canvas:" + options.id);
+                };
+                this.width = this.canvas.width = this.canvasDiv.clientWidth + (options.width === undefined ? 0 : options.width);
+                this.height = this.canvas.height = this.canvasDiv.clientHeight + (options.height === undefined ? 0 : options.height);
+            }
+
+            Canvas.prototype.line = function (moveX, moveY, lineX, lineY, width) {
+                for (var i = 0; i < 4; i++) {
+                    arguments[i] = checkValue(arguments[i]);
+                }
+
+                this.context.beginPath();
+                this.context.moveTo(moveX, moveY);
+                this.context.lineTo(lineX, lineY);
+                this.context.lineWidth = width;
+                this.context.lineCap = 'square';
+                this.context.closePath();
+                this.context.stroke();
+            };
+
+            Canvas.prototype.rectangle = function (beginX, beginY, endX, endY, color) {
+
+                var canvas = this.canvas;
+                for (var i = 0; i < 4; i++) {
+                    arguments[i] = checkValue(arguments[i]);
+                }
+                this.context.beginPath();
+
+                var r = new rect(color, beginX, beginY, endX, endY, this.context);
+                r.draw();
+                canvas.onmouseover = function (e) {
+                    //var mx = e.clientX - canvas.clientLeft;
+                    //var my = e.clientY - canvas.clientTop;
+
+                    console.log("You in canvas");
+                };
+
+                canvas.onclick = function (e) {
+                    console.log("You in canvas");
+                };
+                console.log(r);
+                this.context.fill();
+                this.context.closePath();
+                this.context.stroke();
+            };
+
+            Canvas.prototype.text = function (beginX, beginY, text) {
+                this.context.fillStyle = "#000";
+                this.context.strokeStyle = "#000";
+                this.context.font = "10pt Arial";
+                this.context.fillText(text, beginX, beginY);
+            };
+
+            Canvas.prototype.clear = function () {
+                this.context.clearRect(0, 0, this.width, this.height);
+            };
+
+            function rect(color, x, y, width, height, context) {
+                this.color = color; // цвет прямоугольника
+                this.x = x; // координата х
+                this.y = y; // координата у
+                this.width = width; // ширина
+                this.height = height; // высота
+                //debugger;
+
+                this.draw = function () // Метод рисующий прямоугольник
+                {
+                    context.fillStyle = this.color;
+                    context.fillRect(this.x, this.y, this.width, this.height);
+                };
+            }
+
+            function createCanvas(options) {
+                var canvas = document.createElement("canvas");
+
+                for (var key in options) {
+                    if (key == "style") {
+                        for (var k in options.style) {
+                            canvas.style[k] = options.style[k];
+                        }
+
+                        continue;
+                    }
+
+                    canvas[key] = options[key];
+                }
+
+                return canvas;
+            }
+
+            function checkValue(value) {
+                return value === undefined ? 0 : value;
+            }
+
+            return Canvas;
+        })();
+
+        //TODO: сделать титлы x и y
+        //TODO: сделать групповые столбцы
+        //TODO: сделать кликабельными столбцы
+        //TODO: сделать масштабирумым график
+
+        var Chart = (function () {
+
+            var canvas;
+            var titles;
+
+
+            function Chart(chartDivId, dataColumns, colors) {
+                var optionsTitles = {
+                    id: "titles",
+                    style: { position: "absolute", zIndex: "1" }
+                };
+
+                var optionsColumns = {
+                    id: "columns",
+                    style: { position: "absolute", marginLeft: "40px", marginTop: "40px", marginRight: "30px", zIndex: "0" },
+                    width: -70,
+                    height: -80
+                };
+
+
+                this.canvas = canvas = new Canvas(chartDivId, optionsColumns);
+                this.titles = titles = new Canvas(chartDivId, optionsTitles);
+
+                createTitles();
+
+                if (dataColumns != undefined)
+                    this.update(dataColumns, colors);
+            }
+
+            Chart.prototype.update = function (array, colors) {
+                var step = 0;
+                var speed = 1;
+                var myTimer;
+
+                function draw(array, colors) {
+                    step += speed;
+                    var a = moveHColumn(array, step);
+                    if (!a.stop) {
+                        drawChart(a.array, colors);
+                    }
+
+                    if (a.stop)
+                        clearInterval(myTimer);
+                }
+
+                myTimer = setInterval(function () {
+                    draw(array, colors);
+                }, 5);
+            };
+
+            function createTitles(titlesX, titlesY) {
+                var arr = [0, 50, 100, 150];
+
+                for (var i = 0; i < arr.length; i++) {
+                    createTitleY(i * 50, arr[i]);
+                }
+
+                //for (var i = 1; i < arr.length; i++) {
+                //    createTitleX(i * 50, arr[i]);
+                //}
+            }
+
+            function createTitleX(x, text) {
+                var y = 245;
+                x += 35;
+
+                titles.text(x, y, text);
+            }
+
+            function createTitleY(y, text) {
+                text = text + "";
+                y = titles.height - 35 - y;
+                var x = 25 - ((text.length - 1) * 5);
+
+                titles.text(x, y, text);
+            }
+
+            function moveHColumn(dataColumns, step) {
+                var lengthStop = 0;
+
+                var array = [];
+
+                for (var i = 0; i < dataColumns.length; i++) {
+                    var value = step > dataColumns[i] ? dataColumns[i] : step;
+
+                    if (value == dataColumns[i])
+                        lengthStop++;
+
+                    array.push(value);
+                }
+
+                return { array: array, stop: dataColumns.length == lengthStop };
+            }
+
+            function addHColumn(value, index, options) {
+                var start = options.start == undefined ? 35 : options.start,
+                    interval = 20, endX = 30, // height column
+                    beginX = (endX + interval) * index + start,
+                    endY = value, beginY = canvas.height - endY; // width column
+
+                var color = 'black';
+
+                if (options.color !== undefined)
+                    color = options.color;
+
+                canvas.rectangle(beginX, beginY, endX, endY, color);
+            }
+
+            function addHLine(value, start, end, bold) {
+                var moveY = lineY = canvas.height - value, moveX = 0, lineX = canvas.width;
+
+                canvas.line(moveX, moveY, lineX, lineY, 0.1);
+            }
+
+            function addVLine(value) {
+                var moveX = lineX = value, moveY = 0, lineY = canvas.height;
+
+                canvas.line(moveX, moveY, lineX, lineY, 0.1);
+            }
+
+            function addGroupLine(start, end, bold) {
+                var moveY = lineY = canvas.height;
+                var moveX = start;
+                var lineX = end;
+
+                if (bold == undefined) bold = 0.1;
+
+                canvas.line(moveX, moveY, lineX, lineY, bold);
+            }
+
+            function drawLines() {
+                var linesHLength = canvas.height / 50;
+
+                for (var i = 0; i <= linesHLength; i++) {
+                    addHLine(i * 50);
+                }
+
+                var linesVLength = canvas.width / 50;
+
+                for (var i = 1; i <= linesVLength; i++) {
+                    addVLine(i * 50);
+                }
+            }
+
+            function drawColumns(dataColumns, colors) {
+                for (var i = 0; i < dataColumns.length; i++) {
+                    var color = "black";
+
+                    if (isArray(colors))
+                        color = colors[i % colors.length];
+
+                    addHColumn(dataColumns[i], i, { color: color });
+                }
+            }
+
+            function drawGroupColumns(dataColumns, colors) {
+
+                var groups = [{ title: "1 group", values: [45, 30, 50] }, { title: "3 group", values: [100] }, { title: "4 group", values: [200, 50] }];
+
+                var end = 0;
+                var heightColumns = 30;
+                var intervalColumns = 20;
+
+                for (var i = 0; i < groups.length; i++) {
+                    var countColumns = groups[i].values.length;
+                    var value = heightColumns * countColumns + intervalColumns * (countColumns - 1);
+
+                    var start = end + 100 - 5;
+
+                    end = start + value + 10;
+
+                    for (var j = 0; j < countColumns; j++) {
+                        var valueColumn = groups[i].values[j];
+                        var color = colors[j % colors.length];
+
+                        addHColumn(valueColumn, j, { color: color, start: start + 5 });
+                    }
+
+                    addGroupLine(start, end, 1);
+                    var title = groups[i].title;
+                    var textPosition = start + value / 2 + 10 - title.length * 3;
+
+
+                    createTitleX(textPosition, title);
+                }
+            }
+
+            function clearChart() {
+                canvas.clear();
+
+                drawLines();
+            }
+
+            function drawChart(dataColumns, colors) {
+
+                clearChart();
+
+                //drawColumns(dataColumns, colors);
+                drawGroupColumns(dataColumns, colors);
+            }
+
+            function isArray(array) {
+                return checkType(array) == '[object Array]';
+            }
+
+            function checkType(object) {
+                if (object === undefined)
+                    return '';
+
+                return {}.toString.call(object);
+            }
+
+            return Chart;
+        })();
+
+    </script>
+    <script>
+
+        //init charts
+        var dataColumns = [45, 15, 28, 69, 12, 80];
+        var colors = ["black", "orange", "blue", "yellow", "green"];
+        var updateColumns = [55, 89, 100, 55];
+
+        var chart = new Chart("chart", dataColumns, colors);
+
+    </script>
+    <script>
+        //Timer
+
+        var timer = document.getElementById("timer");
+        timer.onmouseover = function (e) {
+            alert(" x = " + e.clientX + " y  = " + e.clientY);
+        };
+        function getTimeNow() {
+            var date = new Date();
+            var time = parseTime(date.getHours()) + ":" + parseTime(date.getMinutes()) + ":" + parseTime(date.getSeconds());
+
+            function parseTime(value) {
+                return value < 10 ? "0" + value : value;
+            }
+
+            return time;
+        }
+
+        function updateTimer() {
+            timer.innerText = getTimeNow();
+        }
+
+        updateTimer();
+
+        setInterval(updateTimer, 1000);
+    </script>
+}
+
+
+<h2>Bars</h2>
+<div>Текущее время: <span id="timer">0</span></div>
+@*border: 1px solid #d3d3d3; padding-left: 35px; padding-top: 40px; padding-right: 30px;*@
+<div id="chart" style="width: auto; height: 270px; color: #000000; margin: 0; border: 1px solid #d4d4d4;">
+</div>

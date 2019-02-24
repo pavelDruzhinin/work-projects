@@ -1,0 +1,15 @@
+﻿@section scripts
+{
+    <script src="@Url.Content("~/Scripts/MyScripts/TS/helloWorld.js")"></script>
+    <script>
+        //Initialiaze Title
+        var pageTitles = new Titles.PageTitles();
+
+        pageTitles.putTitle({ Id: 1, Url: "/Svg/Objects", Name: "Objects" });
+        pageTitles.putTitle({ Id: 1, Url: "/Svg/Chars", Name: "Charts" });
+        pageTitles.showTitlesOnPage();
+    </script>
+}
+
+<h2>SVG</h2>
+<div id="titles"></div>

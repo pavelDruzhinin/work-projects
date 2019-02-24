@@ -1,0 +1,55 @@
+﻿<style type="text/css" title="currentStyle">
+        @@import "http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css";
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.2/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+
+$.fn.dataTableExt.afnFiltering.push(
+        function(oSettings, aData, iDataIndex) {
+                var isFruit = (aData[0] == 'fruit');
+                return (isFruit ? $('#fruit').is(':checked') :
+                                  $('#candy').is(':checked'));
+        }
+);
+
+$(function() { 
+        var my_table = $('#my_table').dataTable( {
+                bJQueryUI: true,
+                aoColumns: [
+                        /* type */  { bVisible: false, 
+                                      bSearchable: false },
+                        /* thing */ null
+                ],
+
+        });
+
+        $(':checkbox').click(function() {
+                my_table.fnDraw();
+        });
+});
+
+</script>
+
+<p>What should be shown:</p>
+<p><label><input type="checkbox" id="fruit">fruit</label></p>
+<p><label><input type="checkbox" id="candy">candy</label></p>
+
+<table id="my_table">
+<thead>
+<tr>
+<th>Type</th>
+<th>Thing</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>fruit</td><td>apple</td></tr>
+<tr><td>fruit</td><td>banana</td></tr>
+<tr><td>fruit</td><td>pear</td></tr>
+<tr><td>candy</td><td>jelly</td></tr>
+<tr><td>candy</td><td>toffee</td></tr>
+<tr><td>candy</td><td>fudge</td></tr>
+</tbody>
+</table>

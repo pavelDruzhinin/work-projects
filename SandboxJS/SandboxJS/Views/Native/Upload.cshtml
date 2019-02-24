@@ -1,0 +1,46 @@
+﻿<h2>Загрузка файлов</h2>
+<div>
+    <input id="file1" type="file" name="MyFile" value="Выбрать файл" class="userfile" />
+    <button id="SendFile">Отправить</button><br />
+    <span id="info"></span>
+</div>
+
+<script>
+    var jqXHRData;
+
+    function initSimpleFileUpload() {
+        'use strict';
+        $('#file1').fileupload({
+            url: '/File/UploadFile',
+            dataType: 'json',
+            add: function (e, data) {
+                jqXHRData = data;
+            },
+            done: function (event, data) {
+                if (data.result.success) {
+
+                }
+                else {
+
+                }
+                alert(data.result.message);
+            },
+            fail: function (event, data) {
+                if (data.files[0].error) {
+                    alert(data.files[0].error);
+                }
+            }
+        });
+
+    }
+    
+    initSimpleFileUpload();
+    
+    document.getElementById("SendFile").onclick = function () {
+
+        if (jqXHRData) {
+            jqXHRData.submit();
+        }
+        return false;
+    };
+</script>

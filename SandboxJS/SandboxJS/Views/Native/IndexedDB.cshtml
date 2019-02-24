@@ -1,0 +1,12 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/IndexedDB/db.js"></script>
+    <script>
+        var localDB = new DB("Test");
+
+        localDB.createTable("Task", { name: "TaskId", keyPath: "TaskId", parameters: { unique: false } });
+        localDB.addObject({ TaskId: "1" });
+    </script>
+}
+
+<h2>IndexedDB</h2>

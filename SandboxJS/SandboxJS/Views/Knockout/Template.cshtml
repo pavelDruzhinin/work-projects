@@ -1,0 +1,32 @@
+﻿@section scripts
+{
+    <script>
+        function viewModel() {
+            var self = this,
+            templates = { true: "template-1", false: "template-2" };
+
+            self.theText = "Lorem ipsum",
+            self.theText2 = "sdsd",
+            self.templateName = ko.observable('template-1'),
+            self.setTemplate = ko.computed(function() {
+                var templateName = self.templateName();
+
+                return templates[templateName];
+            }, self);
+        };
+        ko.applyBindings(new viewModel());
+    </script>
+}
+
+
+<h2>title</h2>
+<input type="checkbox" data-bind="checked: templateName"/>
+<div data-bind="template: { name:  setTemplate() }"></div>
+
+<script id="template-1" type="text/html">
+   <span data-bind="text: theText2"></span>
+</script>
+
+<script id="template-2" type="text/html">
+    <span data-bind="text: theText"></span>
+</script>

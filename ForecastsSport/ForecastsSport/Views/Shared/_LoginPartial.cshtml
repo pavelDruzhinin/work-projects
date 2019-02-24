@@ -1,0 +1,17 @@
+﻿<div id="autorization">
+    @if (Request.IsAuthenticated)
+    {
+        <text>
+        <div>Здравствуйте, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Управление" })!
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+        }</div>
+        </text>
+    }
+    else
+    {
+        <text>
+        <div>[@Html.ActionLink("Вход", "LogIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })]<span>&nbsp;&nbsp;&nbsp;</span> @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</div> </text>
+    }
+</div>

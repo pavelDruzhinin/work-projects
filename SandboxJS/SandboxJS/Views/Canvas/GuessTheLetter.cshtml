@@ -1,0 +1,70 @@
+﻿@section scripts
+{
+    <script>
+        window.addEventListener("load", eventWindowLoaded, false);
+        function eventWindowLoaded() {
+            canvasApp();
+        }
+        function canvasSupport() {
+            return !!document.createElement('canvas').getContext;
+        }
+        function canvasApp() {
+            if (!canvasSupport()) {
+                return;
+            }
+            var theCanvas = document.getElementById("canvasOne");
+            var context = theCanvas.getContext("2d");
+            function drawScreen() {
+                //background
+                context.globalAlpha = 1;
+                context.fillStyle = "#000000";
+                context.fillRect(0, 0, 640, 480);
+                
+                //image
+                context.globalAlpha = .25;
+                context.drawImage(helloWorldImage, 0, 0);
+                
+                if (fadeIn) {
+                    alpha += .01;
+                    if (alpha >= 1) {
+                        alpha = 1;
+                        fadeIn = false;
+                    }
+                } else {
+                    alpha -= .01;
+                    if (alpha < 0) {
+                        alpha = 0;
+                        fadeIn = true;
+                    }
+                }
+                //text
+                context.font = "72px Sans-Serif";
+                context.textBaseline = "top";
+                context.globalAlpha = alpha;
+                context.fillStyle = "#FFFFFF";
+                context.fillText(text, 100, 200);
+            }
+            
+            var text = "Html5 Canvas";
+            var alpha = 0;
+            var fadeIn = true;
+            
+            //image
+            var helloWorldImage = new Image();
+            helloWorldImage.src = "/images/html5bg.jpg";
+            function gameLoop() {
+                window.setTimeout(gameLoop, 20);
+                drawScreen();
+            }
+            gameLoop();
+        }
+    </script>
+}
+
+<h2>Fade In and Fade Out</h2>
+
+<div>
+    <canvas id="canvasOne" width="640" height="480">Your browser does not support HTML 5 Canvas.
+    </canvas>
+</div>
+

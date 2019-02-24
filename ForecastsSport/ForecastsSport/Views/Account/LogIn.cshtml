@@ -1,0 +1,34 @@
+﻿@model ForecastsSport.Models.ViewModels.LoginViewModel
+
+
+<div id="logon">
+    <div style="text-align: center; float: none; margin-bottom: -8px;">
+        <span>Вход в систему</span>
+    </div>
+    @Html.ValidationSummary(true, "Неправильно введено имя пользователя. Пожалуйста, попробуйте снова.")
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <br />
+        <div class="editor-label">
+            @Html.LabelFor(m => m.UserName)
+        </div>
+        <div class="editor-field">
+            <div class="message">@Html.ValidationMessageFor(m => m.UserName)</div>
+            @Html.TextBoxFor(m => m.UserName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="editor-field">
+            <div class="message">@Html.ValidationMessageFor(m => m.Password)</div>
+            @Html.PasswordFor(m => m.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.LabelFor(m => m.RememberMe)
+        </div>
+        <input id="Login" type="submit" value="Войти" />
+    }
+</div>

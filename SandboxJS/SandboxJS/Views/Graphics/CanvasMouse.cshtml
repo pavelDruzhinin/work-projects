@@ -1,0 +1,45 @@
+﻿@section scripts
+{
+    <script>
+        // Функция рисующая на холсте
+        function draw() {
+            // Сначала отрисовываем фон
+            context.fillStyle = "#BDBDFF";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            // Параметры шрифта
+            context.font = "30pt Calibri";
+            context.textAlign = "center";
+            context.fillStyle = "#fff";
+            // Вывод текста
+            context.fillText(text, canvas.width / 2, canvas.height / 2);
+        }
+        // Функция вызываемая в момент когда курсор оказывается в области холста
+        function mouseover() {
+            text = "Курсор на холсте!";
+        }
+        // Функция которая меняет текст в момент когда курсор выходит за пределы холста
+        function mouseout() {
+            text = "Курсор за пределами =(";
+        }
+        // Инициализация параметров
+        function init() {
+            canvas = document.getElementById("example");
+            context = canvas.getContext("2d");
+            // Меняем размер холста
+            canvas.width = 480;
+            canvas.height = 160;
+            // Текст на холсте
+            text = "Наведи на меня!";
+            canvas.onmouseover = mouseover;
+            canvas.onmouseout = mouseout;
+            // Отрисовываем фон и текст
+            setInterval(draw, 1000 / 60);
+        }
+
+        init();
+    </script>
+}
+
+<h2>Mouse in Canvas</h2>
+
+<canvas id="example"></canvas>

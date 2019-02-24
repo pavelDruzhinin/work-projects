@@ -1,0 +1,82 @@
+﻿<link rel="stylesheet" href="Content/index.css" />
+
+@section scripts
+{
+    <script src="~/Scripts/MyScripts/Native/native.cancelCopyPast.js"></script>
+    <script>
+        CancelCopyPast("copy", function () { alert("Привет!"); },
+            17,
+            "V".charCodeAt(0));
+    </script>
+    <script src="~/Scripts/MyScripts/Math/math.min.js"></script>
+    <script src="~/Scripts/MyScripts/Math/math.js"></script>
+    <script>
+        var module = angular.module('sample', ['datePicker', 'ui.bootstrap']);
+
+        module.controller('DateCtrl', ['$scope', function ($scope) {
+            $scope.start = null;
+            $scope.$watch('start', function(newValue) {
+                console.dir(newValue);
+
+            });
+            //$scope.hours = {};
+        }]);
+
+
+    </script>
+
+    @*<script src="~/Scripts/MyScripts/mssql.js"></script>*@
+}
+
+<script src="@Url.Content("~/Scripts/MyScripts/Accesss.js")"></script>
+
+<h2>Домашняя</h2>
+
+
+<div ng-controller="DateCtrl">
+    <div date-picker="start" min-view="date" view="date"></div>
+    @*<input type="text" date-time="start" ng-model="start" required="true" view="date" min-view="date" partial="true" class="ng-scope ng-pristine ng-invalid ng-invalid-required">*@
+</div>
+
+<h4>Рассчитаем минимальное значение из двух чисел</h4>
+<div class="actions">
+    <span>Введите а:</span><input id="a" type="text" pattern="^[0-9]+$" />
+    <span>Введите b:</span><input id="b" type="text" />
+    <input id="calc" type="button" onclick="return CalcMin();" value="Расcчитать" />
+</div>
+<div class="result">
+    <span>Результат:</span><input id="min" type="text" />
+</div>
+
+
+<h4>Функция, которая возвращает x в степени n.</h4>
+<div class="actions">
+    <span>Введите число:</span><input id="x" type="text" />
+    <span>Введите степень:</span><input id="n" type="text" />
+    <input id="calcPow" type="button" onclick="return CalcPow();" value="Раcсчитать степень" />
+</div>
+<div class="result">
+    <span>Результат:</span><input id="pow" type="text" />
+</div>
+
+<h4>Числа Фибоначчи</h4>
+<div class="actions">
+    <span>Введите n:</span><input id="fn" type="text" />
+    <input type="button" id="calcFib" onclick="return CalcFib();" value="Раcсчитать" />
+</div>
+<div class="result">
+    <span>Результат:</span><input id="fib" type="text" />
+</div>
+
+<h4>Массивы(работа random)</h4>
+<div class="actions">
+    <button onclick="return showRandomElement();">Вывести случайный элемент массива</button>
+</div>
+<div class="result">
+    <span>Результат: </span><span id="randomElement"></span>
+</div>
+
+<h4>Отмена копипаста</h4>
+<textarea id="copy"></textarea>
+
+<textarea id="InsertResult" style="margin: 0px; width: 1096px; height: 619px;"></textarea>

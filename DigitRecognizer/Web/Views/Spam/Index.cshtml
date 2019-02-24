@@ -1,0 +1,33 @@
+﻿<h2>Теорема Байеса</h2>
+
+<textarea id="message"></textarea>
+<button id="frecognize">Распознать с помощью FSharp</button>
+<button id="recognize">Распознать с помощью CSharp</button>
+
+<script>
+    $("#frecognize").on('click',
+        function (e) {
+            classifyMessage('/spam/fclassify');
+        });
+
+    $("#recognize").on('click',
+        function (e) {
+            classifyMessage('/spam/classify');
+        });
+
+    function classifyMessage(url) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                message: $("#message").val()
+            }
+        }).done(function (o) {
+            addResults(o);
+        });
+    }
+
+    function addResults(o) {
+        console.log(o);
+    }
+</script>

@@ -1,0 +1,26 @@
+﻿@section scripts
+{
+    <script>
+        var loaded = false;
+
+        window.onpopstate = function (e) {
+            if (!loaded) {
+                loaded = true;
+                localStorage.setItem("load", "another");
+                //document.write("another");
+                return;
+            } else {
+                localStorage.setItem("load","back");
+                //document.write("back");
+            }
+        };
+        //window.onbeforeunload = function () {
+        //    debugger;
+        //    return;
+        //};
+
+    </script>
+}
+
+<h2>Back Button</h2>
+<span id="info"></span>

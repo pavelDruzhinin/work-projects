@@ -1,0 +1,52 @@
+﻿body {
+    font-size: 18pt;
+    background-color: white;
+}
+
+.header{
+background-image: url('vaioimg.jpg');
+color: red;
+font-size:54pt;
+height: 128px;
+width: 100%;
+}
+div.comment {
+font-size: 20pt;
+text-align: right
+}
+div.menu{
+background-color: #faf0e6;
+text-align: center;
+color: red;
+font-size:24pt;
+float:left;
+width: 100%;
+border-width: medium;
+    height: 10%;
+}
+div.menu > a:hover
+{
+color:gray;
+border-width:thick;
+border-color:red;
+background-color:red;
+cursor: pointer;
+}
+div.menu > a:link
+{
+color:red;
+text-decoration:none;
+cursor: pointer;
+}
+div.menu > a:visited
+{
+color:black;
+text-decoration:none;
+cursor: pointer;
+}
+div.content {
+    width: 80%;
+    text-align:center;
+    align-self: flex-end;
+    font-family: Tahoma;
+}

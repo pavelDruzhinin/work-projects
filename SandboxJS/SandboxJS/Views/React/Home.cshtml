@@ -1,0 +1,46 @@
+﻿@section scripts
+{
+    @Scripts.Render("~/bundles/react")
+    
+    <script>
+        var HelloMessage = React.createClass({
+            displayName: "HelloMessage",
+            render: function () {
+                return React.DOM.div(null, "Hello ", this.props.name);
+            }
+        });
+
+        var Table = React.createClass({
+            displayName: "Table",
+            getInitialState: function () {
+                return { columns: this.props.columns, data: this.props.data };
+            },
+            render: function () {
+                return React.DOM.table(null,
+                    React.DOM.tbody(null,
+                    this.state.data.map(function (row) {
+                        if (!App.IsType(row, []))
+                            return React.DOM.tr(null,
+                                React.DOM.td(null, row)
+                                );
+
+                        return React.DOM.tr(null,
+                              row.map(function (cell) {
+                                  return cell;
+                              }));
+                    })
+                    )
+                );
+            }
+        });
+
+        var tableData = [[1, 2, 3, "<input type='text'/>"], 2, 3];
+
+        React.renderComponent(HelloMessage({ name: "Pavel" }), document.getElementById("HelloMessage"));
+        React.renderComponent(Table({ data: tableData }), document.getElementById("table"));
+    </script>
+}
+
+<h2>React</h2>
+<div id="HelloMessage"></div>
+<div id="table"></div>

@@ -1,0 +1,59 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/Svg/svg.js"></script>
+    <script src="~/Scripts/MyScripts/Svg/chart.js"></script>
+    <script>
+        //init charts: dataColumns, colors
+        var columns = [
+            { title: "Ром", value: 150 },
+            { title: "Шампунь", value: 45 },
+            { title: "Виски", value: 105 }
+        ];
+
+        function click() {
+            alert("Other click");
+        }
+
+        var columns1 = [
+            { title: "Подушка", value: 200 },
+            { title: "Кровать", value: 26, action: click },
+            { title: "Покрывало", value: 28 }
+        ];
+
+        var titles = ["20", "30", "40", "50", "60", "70"];
+
+        var colors = ["red", "black", "orange", "blue", "red", "black", "orange", "blue", "red"];
+        //var colors = ["red", "black"];
+
+        var dataColumns = {
+            type: "stack",
+            //titles: titles,
+            data: {
+                groups: [
+                    { name: "group 1", columns: columns },
+                    { name: "group 2", columns: columns1 },
+                    { name: "group 3", columns: columns }
+                ],
+                colors: colors
+            }
+        };
+
+        var dataColumns2 = {
+            type: "stack",
+            titles: titles,
+            data: {
+                groups: [
+                    { name: "group 4", columns: columns1 },
+                    { name: "group 5", columns: columns1 },
+                    { name: "group 6", columns: columns }
+                ],
+                colors: colors
+            }
+        };
+
+        var chart = new Chart("chart", dataColumns);
+    </script>
+}
+
+<h2>Charts</h2>
+<div id="chart"></div>

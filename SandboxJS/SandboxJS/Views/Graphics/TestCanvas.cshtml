@@ -1,0 +1,239 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/Native/Types/native.types.js"></script>
+
+    <script>
+        var chart = document.getElementById("chart");
+
+        var myCanvas = document.createElement("canvas");
+
+        chart.appendChild(myCanvas);
+
+        var context = myCanvas.getContext("2d");
+
+        //1100,200
+        myCanvas.width = chart.clientWidth - 60;
+        myCanvas.height = chart.clientHeight - 70;
+
+        function line(moveX, moveY, lineX, lineY, width) {
+            for (var i = 0; i < 4; i++) {
+                arguments[i] = checkValue(arguments[i]);
+            }
+
+            context.beginPath();
+            context.moveTo(moveX, moveY);
+            context.lineTo(lineX, lineY);
+            context.lineWidth = width;
+            context.lineCap = 'square';
+            context.closePath();
+            context.stroke();
+        }
+
+        //120, 135, 30, 30
+        //beginX - 
+
+        function rectangle(beginX, beginY, endX, endY, color) {
+            for (var i = 0; i < 4; i++) {
+                arguments[i] = checkValue(arguments[i]);
+            }
+            context.beginPath();
+            context.fillRect(beginX, beginY, endX, endY);
+            context.fillStyle = color;
+            context.fill();
+            context.closePath();
+            context.stroke();
+        }
+
+        function checkValue(value) {
+            return value === undefined ? 0 : value;
+        }
+
+        function moveHColumn(dataColumns, step) {
+
+            var lengthStop = 0;
+
+            var array = [];
+
+            for (var i = 0; i < dataColumns.length; i++) {
+                var value = step > dataColumns[i] ? dataColumns[i] : step;
+
+                if (value == dataColumns[i])
+                    lengthStop++;
+
+                array.push(value);
+            }
+
+            return { array: array, stop: dataColumns.length == lengthStop };
+        }
+
+        //options:{color, actionClick, animate}
+        var addHColumn = function (value, index, options) {
+            var start = 15, interval = 20, endX = 30, // height column
+                beginX = (endX + interval) * index + start,
+                endY = value, beginY = myCanvas.height - endY; // width column
+
+            var color = 'black';
+
+            if (options.color !== undefined)
+                color = options.color;
+
+            rectangle(beginX, beginY, endX, endY, color);
+        };
+
+        var addHLine = function (value) {
+            var moveY = lineY = myCanvas.height - value, moveX = 0, lineX = myCanvas.width;
+
+            line(moveX, moveY, lineX, lineY, 0.1);
+        };
+
+        var addVLine = function (value) {
+            var moveX = lineX = value, moveY = 0, lineY = myCanvas.height;
+
+            line(moveX, moveY, lineX, lineY, 0.1);
+        };
+
+        function drawLines() {
+            var linesHLength = myCanvas.height / 50;
+
+            for (var i = 0; i <= linesHLength; i++) {
+                addHLine(i * 50);
+            }
+
+            var linesVLength = myCanvas.width / 50;
+
+            for (var i = 1; i <= linesVLength; i++) {
+                addVLine(i * 50);
+            }
+        }
+
+        function drawColumns(dataColumns, colors) {
+            for (var i = 0; i < dataColumns.length; i++) {
+                var color = "black";
+
+                if (isArray(colors))
+                    color = colors[i % colors.length];
+
+                addHColumn(dataColumns[i], i, { color: color });
+            }
+        }
+
+        function clearChart() {
+            context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+            drawLines();
+        }
+
+        function drawChart(dataColumns, colors) {
+
+            clearChart();
+
+            drawColumns(dataColumns, colors);
+        }
+
+        function initChart(array, colors) {
+            var step = 0;
+            var myTimer;
+
+            function draw(array, colors) {
+                step += 1;
+                var a = moveHColumn(array, step);
+                if (!a.stop) {
+                    drawChart(a.array, colors);
+                }
+
+                if (a.stop)
+                    clearInterval(myTimer);
+            }
+
+            myTimer = setInterval(function (parameters) {
+                draw(array, colors);
+            }, 5);
+        }
+    </script>
+    
+    <script>
+
+        //init charts
+        var dataColumns = [45, 15, 28, 69, 12, 80];
+        var colors = ["black", "orange", "blue", "yellow", "green"];
+        var updateColumns = [55, 89, 100, 55];
+        initChart(dataColumns, colors);
+    </script>
+    
+    <script>
+        //Timer
+        function getTimeNow() {
+            var date = new Date();
+            var time = parseTime(date.getHours()) + ":" + parseTime(date.getMinutes()) + ":" + parseTime(date.getSeconds());
+
+            function parseTime(value) {
+                return value < 10 ? "0" + value : value;
+            }
+
+            return time;
+        }
+
+        function updateTimer() {
+            var timer = document.getElementById("timer");
+
+            timer.innerText = getTimeNow();
+        }
+
+        updateTimer();
+
+        setInterval(updateTimer, 1000);
+    </script>
+
+    <script>
+        var example = document.getElementById("chess"),
+            ctx = example.getContext('2d');
+        example.width = 640;
+        example.height = 480;
+        ctx.strokeStyle = '#B70A02';
+        // меняем цвет рамки
+        ctx.strokeRect(15, 15, 266, 266);
+        ctx.strokeRect(18, 18, 260, 260);
+        ctx.fillStyle = '#AF5200';
+        // меняем цвет клеток
+        ctx.fillRect(20, 20, 256, 256);
+        for (i = 0; i < 8; i += 2)
+            for (j = 0; j < 8; j += 2) {
+                ctx.clearRect(20 + i * 32, 20 + j * 32, 32, 32);
+                ctx.clearRect(20 + (i + 1) * 32, 20 + (j + 1) * 32, 32, 32);
+            }
+    </script>
+
+    <script>
+        var crown = document.getElementById("crown"),
+            ctx = crown.getContext('2d');
+        crown.height = 480;
+        crown.width = 640;
+        ctx.beginPath();
+        ctx.arc(80, 100, 56, 3 / 4 * Math.PI, 1 / 4 * Math.PI, true);
+        ctx.fill();
+        // *14
+        ctx.moveTo(40, 140);
+        ctx.lineTo(20, 40);
+        ctx.lineTo(60, 100);
+        ctx.lineTo(80, 20);
+        ctx.lineTo(100, 100);
+        ctx.lineTo(140, 40);
+        ctx.lineTo(120, 140);
+        ctx.stroke();
+    // *22
+    </script>
+}
+
+<h2>Test Canvas</h2>
+<div>Текущее время: <span id="timer"></span></div>
+@*border: 1px solid #d3d3d3;*@
+<div id="chart" style="width: auto; height: 230px; color: #000000; margin: 0; padding-right: 30px; border: 1px solid #d4d4d4; padding-left: 30px; padding-top: 40px;">
+</div>
+
+<div>
+    <canvas id="chess"></canvas>
+</div>
+
+<div>
+    <canvas id="crown"></canvas>
+</div>

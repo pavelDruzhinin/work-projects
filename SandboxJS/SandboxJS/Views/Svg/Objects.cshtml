@@ -1,0 +1,40 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/Svg/svg.js"></script>
+
+    <script>
+        var Image = new Svg("image");
+        Image.addRect({ x: "10", y: "10", width: "150", height: "150", style: "fill:red;" });
+        Image.addG({ x: "50", y: "20" });
+        Image.addInElement(Image.gs[0].id, [{
+            name: "rect",
+            options: { x: "10", y: "10", width: "30", height: "10", style: "fill:blue;" }
+        }]);
+
+        Image.addInElement(Image.svgs[0].id, [{
+            name: "svg",
+            options: {
+                x: "20",
+                y: "20",
+                width: "260",
+                height: "130",
+                viewBox: "0 0 260 130",
+                preserveAspectRatio: "xMaxYMax meet"
+            }
+        }]);
+
+        Image.addInElement(Image.svgs[1].id, [{
+            name: "rect",
+            options: { x: "0", y: "0", width: "50", height: "100", style: "fill:blue;" }
+        }]);
+
+        Image.addInElement(Image.svgs[1].id, [{
+            name: "rect",
+            options: { x: "0", y: "0", width: "30", height: "50", style: "fill:orange;" }
+        }]);
+        
+    </script>
+}
+
+<h2>Objects in SVG</h2>
+<div id="image" style="height: 200px;"></div>

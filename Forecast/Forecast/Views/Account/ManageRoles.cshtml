@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "ManageRoles";
+}
+
+<h3>Управление ролями</h3>
+
+<div id="loader">
+    Загружаю данные...
+</div>
+<div id="roles" style="display:none;">
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    <button class="btn" data-bind="click: addRole">Добавить</button>
+                </td>
+                <td>
+                    <input type="text" placeholder="Введите роль..." />
+                </td>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: roles">
+            <tr>
+                <td>
+                    <button class="btn" data-bind="click: $parent.removeRole"></button>
+                </td>
+                <td><span data-bind="text: RoleName"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    /// <reference path="~/Scripts/System/knockout-2.2.0.debug.js" />
+    /// <reference path="~/Scripts/System/knockout.mapping-latest.js" />
+    /// <reference path="~/Scripts/System/jquery-1.10.2.intellisense.js" />
+    /// <reference path="~/Scripts/System/jquery-1.10.2.js" />
+
+    function Role(data) {
+        this.RoleId = ko.observable(RoleId);
+        this.RoleName = ko.observable(data.RoleName);
+    }
+
+    function RoleViewModel() {
+        self.roles = ko.observableArray([]);
+
+        self.addRole = function () {
+
+        };
+
+        self.removeRole = function () {
+
+        };
+
+        $.ajax("/Account/GetRoles", {
+            type: "POST",
+            contentType: "application/json",
+            success: function (data) {
+                var mappedRoles = $.map(data.Roles, function (item) { return new Role(item) });
+                self.roles(mappedRoles);
+                $("#loader").hide();
+                $("#roles").show();
+            }
+        }).error(function () {
+            alert("Произошла ошибка");
+        });
+    }
+
+    $(document).ready(function () {
+        ko.applyBindings(new RoleViewModel(), roles);
+    });
+
+</script>

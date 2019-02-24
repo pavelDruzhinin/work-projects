@@ -1,0 +1,19 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/Native/Linq/native.list.js"></script>
+    <script>
+        var list = new List(1, 2, 3, 4, 5, 6);
+
+        var listObjects = new List(
+            { id: 1, CompanyName: 'Попт' },
+            { id: 2, CompanyName: 'Роак' }
+            );
+
+        var objects = new List(
+            { id: 1, CompanyId: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+            { id: 2, CompanyId: [{ id: 3 }, { id: 4 }, { id: 5 }] }
+        );
+    </script>
+}
+
+<h2>List Linq</h2>

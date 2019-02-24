@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "KnockOut";
+}
+
+<h2>KnockOut</h2>
+
+name1:
+<input data-bind="value: nameForDisplay, event: { 'blur': onBlur, 'focus': focusInput } " />
+name2:
+<input placeholder="Найти счет" data-bind="value: nameForDisplay" />
+<input type="text" placeholder="Найти" data-bind="value: name3, hasFocus: name3" /><hr />
+name1:
+<div data-bind="text: name"></div>
+<div data-bind="text: nameForDisplay"></div>
+
+<hr />
+name2:<div data-bind="text: name2"></div>
+<div data-bind="text: nameForDisplay"></div>
+
+<script src="@Url.Content("~/Scripts/MyScripts/ko.placeholder.js")"></script>

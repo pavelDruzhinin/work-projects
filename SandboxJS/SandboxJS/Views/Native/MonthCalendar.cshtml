@@ -1,0 +1,196 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/Native/MonthCalendar/native.monthCalendar.js"></script>
+    <script>
+
+        var Calendar = (function (options) {
+            var WeekDays = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресение"];
+            var WeekDaysAbbr = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+            var dateNow = new Date();
+            var Month = (function (number, year) {
+                var dateNow = new Date();
+
+                function isDate(date) {
+                    return {}.toString.call(date) == '[object Date]';
+                }
+
+                function month(number, year) {
+                    var Number = parseDate(number, year);
+
+                    var days = dayInMonth(Number.number);
+
+                    this.startDate = new Date(Number.year, Number.number, 1);
+                    this.endDate = new Date(Number.year, Number.number, days);
+                    this.days = days;
+                    this.month = Number.number;
+                    this.year = Number.year;
+                }
+
+                function parseDate(number, year) {
+                    if (isDate(number)) {
+                        return { number: number.getMonth(), year: number.getYear() };
+                    }
+
+                    year = !year ? dateNow.getFullYear() : year;
+
+                    if (number === undefined)
+                        number = dateNow.getMonth();
+                    else {
+                        number += -1;
+                    }
+
+                    if (number > 12) {
+                        year += Math.floor(number / 12);
+                        number %= 12;
+                    }
+
+                    return { number: number, year: year };
+                }
+
+                function dayInMonth(numberMonth) {
+                    var dayEnds = [28, 29, 30, 31];
+
+                    var endDay = dayEnds[0];
+
+                    for (var i = 0; i < dayEnds.length; i++) {
+                        var date = new Date(dateNow.getFullYear(), numberMonth, dayEnds[i]);
+
+                        if (numberMonth != date.getMonth())
+                            break;
+
+                        endDay = dayEnds[i];
+                    }
+
+                    return endDay;
+                }
+
+                function createWeeks() {
+                    var prevMonth = new month(this.month - 1, this.year);
+                    var nextMonth = new month(this.month + 1, this.year);
+                    var weeks = {};
+
+                    //first week
+                    var startDay = this.startDate.getDay() == 0 ? this.startDate.getDay() + 7 : this.startDate.getDay() + 1;
+
+                    var endWeek = startDay + (-2 * startDay + 8);
+
+                    var startWeek = endWeek == 7 ? 1 : prevMonth.endDate.getDay() - (7 - endWeek);
+
+                    //for (var i = this.startDate.getDay(); i <= this.days; i++) {
+
+                    //}
+
+                    return weeks;
+                }
+
+                return month;
+            })();
+
+            function Calendar(options) {
+                var div = document.getElementById(options.elementId);
+                div.style.width = '250px';
+
+                this.div = div;
+                this.weekDays = createWeekDays.call(this, WeekDaysAbbr);
+                this.month = new Month();
+                this.date = dateNow;
+                this.days = createNumberDays.call(this);
+            }
+
+            function createSpan(text, className) {
+                var span = document.createElement('span');
+                span.innerHTML = text;
+                span.style.marginRight = span.style.marginLeft = '10px';
+                return span;
+            }
+
+            function createWeekDays(weekdays) {
+
+                var div = document.createElement("div");
+                div.id = "weekDays";
+
+                for (var i = 0; i < weekdays.length; i++) {
+                    var span = createSpan(weekdays[i]);
+                    div.appendChild(span);
+                }
+
+                this.div.appendChild(div);
+
+                return div;
+            }
+
+            function createWeek(id, day) {
+                var week = document.createElement('div');
+                week.id = id;
+
+                for (var i = day - 7; i < day; i++) {
+                    var span = createSpan(i > 0 ? i : "");
+
+                    week.appendChild(span);
+                }
+
+                return week;
+            }
+
+            function createWeeks() {
+
+                var weeks = [];
+
+                var days = [];
+
+                for (var i = 1; i < day / 7; i++) {
+
+                }
+
+                return weeks;
+            }
+
+            function createNumberDays() {
+
+                var div = document.createElement("div");
+                div.id = 'days';
+
+                var week = document.createElement("div");
+                div.id = 'week_1';
+
+                for (var i = 1; i <= this.month.days; i++) {
+                    var span = createSpan(i);
+
+                    div.appendChild(span);
+                }
+
+                this.div.appendChild(div);
+
+                return div;
+            }
+
+            return Calendar;
+        })();
+    </script>
+
+    <script>
+        options = {
+            elementId: "monthCalendar",
+            action: function () {
+                alert(this.getDateNow());
+            }
+        };
+
+        var calendar = new MonthCalendar(options);
+
+        var date = new Date();
+
+
+        //var month = new Month(2);
+
+        var c = new Calendar({
+            elementId: "calendar"
+        });
+
+    </script>
+}
+
+
+<h2>Календарь месяцев</h2>
+<div id="monthCalendar"></div>
+<div id="calendar"></div>

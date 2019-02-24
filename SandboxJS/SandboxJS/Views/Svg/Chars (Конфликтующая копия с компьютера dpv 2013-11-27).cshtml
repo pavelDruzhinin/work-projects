@@ -1,0 +1,143 @@
+﻿@section scripts
+{
+    <script src="~/Scripts/MyScripts/Svg/svg.js"></script>
+    <script>
+        var Chart = (function () {
+
+            function Chart(divId) {
+                this.svg = new Svg(divId, { style: "border:1px solid;" });
+
+                var height = this.svg.height - 80;
+                var width = this.svg.width - 60;
+
+                this.svg.addRect({
+                    x: "40",
+                    y: "40",
+                    height: height,
+                    width: width,
+                    style: "stroke: black; fill: none;"
+
+                });
+
+                var columnsArea = {
+                    name: "svg",
+                    options: {
+                        x: "40",
+                        y: "40",
+                        height: height,
+                        width: width,
+                        viewBox: ["0", "0", width, height].join(" "),
+                        //style: "",
+                        preserveAspectRatio: "xMaxYMax meet"
+                    }
+                };
+
+                this.svg.addInElement(this.svg.svgs[0].id, [columnsArea]);
+
+                var columns = [
+                    { title: "Ром", value: 150 },
+                    { title: "Шампунь", value: 45 },
+                    { title: "Виски", value: 105 }
+                ];
+                var colors = ["red", "black", "orange"];
+
+                function addColumns(param) {
+                    var columns = param.columns;
+                    var int = param.int;
+                    for (var i = 0; i < columns.length; i++) {
+
+                        var p = {
+                            title: columns[i].title,
+                            value: columns[i].value,
+                            color: colors[i % colors.length],
+                            interval: i == 0 ? int : int += 40
+                        };
+
+                        addColumn.call(this, p);
+                    }
+                }
+
+                addLines.call(this);
+                addColumns.call(this, { columns: columns, colors: colors, int: 10 });
+
+                //clear.call(this);
+
+                // parameters: value, title, interval, color
+                function addColumn(param) {
+
+                    var height = this.svg.height - 80;
+                    var width = this.svg.width - 60;
+                    var value = 40;
+
+                    var column = {
+                        name: "rect",
+                        options: {
+                            x: param.interval, // this is interval
+                            y: height - param.value, // change with value
+                            height: param.value,//this is value
+                            width: "20",
+                            style: "fill:" + param.color + ";"
+                        },
+                        actions: {
+                            onmouseover: function () {
+                                console.log("You in column " + param.title);
+                            },
+                            onclick: function () {
+                                console.log("You clicked column " + param.title);
+                            }
+                        }
+                    };
+
+                    this.svg.addInElement(this.svg.svgs[1].id, [column]);
+                }
+
+                function clear() {
+
+                    this.svg.clear(this.svg.svgs[1].id);
+                }
+
+                function addLines() {
+                    var height = this.svg.svgs[1].height.baseVal.value;
+                    var width = this.svg.svgs[1].width.baseVal.value;
+                    var lines = [];
+
+                    //horizontial
+                    var hcount = height / 50;
+
+                    for (var i = 0; i < hcount; i++) {
+
+                        //x1="start-x" y1="start-y" x2="end-x" y2="end-y"
+                        var line = {
+                            name: "line",
+                            options: {
+                                x1: "0",
+                                y1: i * 50,
+                                x2: width,
+                                y2: i * 50,
+                                style: "stroke-opacity: 0.2; stroke: black; stroke-width: 5;"
+                            }
+                        };
+
+                        lines.push(line);
+                    }
+
+                    this.svg.addInElement(this.svg.svgs[1].id, lines);
+                }
+
+            }
+
+
+
+
+            return Chart;
+        })();
+    </script>
+    <script>
+        //init charts: dataColumns, colors
+
+        var chart = new Chart("chart");
+    </script>
+}
+
+<h2>Charts</h2>
+<div id="chart"></div>

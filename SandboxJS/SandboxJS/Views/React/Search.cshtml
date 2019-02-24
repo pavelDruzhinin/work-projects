@@ -1,0 +1,70 @@
+﻿<link href="/Content/pagination.css" rel="stylesheet">
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/react")
+    @Scripts.Render("~/bundles/classes")
+    <script>
+        var searchId = "searchDialog";
+
+        //#region Render Dialog
+        React.renderComponent(
+           App.Dialog({
+               id: searchId,
+               options: {
+                   autoOpen: false,
+                   modal: true,
+                   width: 800,
+                   resizable: false,
+                   title: 'Создание тикета'
+               },
+               action: function () {
+                   var company = {};
+                   App.foreach(document.querySelectorAll('#' + searchId + ' input[name]'), function (el) {
+                       company[el.attributes.name.value] = el.value;
+                   });
+
+                   if (!company.Inn)
+                       return true;
+
+                   var inputs = [];
+                   for (var key in company) {
+                       inputs.push('<input name="' + key + '" value="' + company[key] + '" type="hidden"/>');
+                   }
+
+                   App.PostForm({
+                       url: "/pts/createticket",
+                       inputs: inputs.join(''),
+                       form: "TicketQueryForm"
+                   });
+
+                   App.writeLog("Готово.", [company]);
+               },
+               content: App.FormCreateTicket,
+               contentProps: {
+                   urlSearch: '/api/Companies/GetCompanies',
+                   result: App.CompanyResult,
+                   pagination: App.Pagination,
+                   method: 'get',
+                   showPages: 5,
+                   search: App.Search
+               }
+           }),
+           document.getElementById(searchId)
+       );
+        //#endregion
+
+        document.getElementById("openDialog").addEventListener("click", function () {
+            $("#" + searchId).dialog("open");
+        }, false);
+    </script>
+}
+
+
+<h2>React - Search</h2>
+<div class="grid_12">
+    <button id="openDialog">Вызвать поиск</button>
+</div>
+
+<div id="searchDialog" style="display: none;">
+</div>

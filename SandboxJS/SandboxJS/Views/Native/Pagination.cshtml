@@ -1,0 +1,31 @@
+﻿<link href="/Content/pagination.css" rel="stylesheet">
+
+@section scripts
+{
+    <script src="~/Scripts/MyScripts/Native/Pagination/native.pagination.js"></script>
+    <script>
+        options = {
+            showpages: 10, totalpages: 15, actionButton: function (current) {
+                alert(current);
+            }
+        };
+
+        var options2 = {
+            showpages: 5,
+            totalpages:10
+        };
+
+        var pg = new Pagination("pag", options);
+
+        var pg2 = new Pagination("pag1", options);
+
+        //var pg3 = new Pagination("pag2");
+    </script>
+}
+
+<h2>Pagination</h2>
+<div id="pag" class="pagination"></div>
+<br />
+<div id="pag1" class="pagination"></div>
+<br />
+@*<div id="pag2" class="pagination"></div>*@

@@ -1,0 +1,86 @@
+﻿<div id="result"></div>
+
+<script>
+
+    function role(CategoryId, Name, DisplayName) {
+        this.CategoryId = CategoryId;
+        this.Name = Name;
+        this.DisplayName = DisplayName;
+
+        this.toString = function () {
+            return "Update webpages_Roles set DisplayName = '" + this.DisplayName + "', CategoryId = " + this.CategoryId + " where Name = '" + this.Name + "'";
+        }
+    }
+
+    var roles = [
+        new role(5, 'Admin_Access', 'Админка'),
+        new role(5, 'AWA_Access', 'AWA'),
+        new role(5, 'Companies_Access', 'Компании'),
+        new role(5, 'Create_BulkSales', 'Массовые продажи'),
+        new role(5, 'Info_Access', 'FAQ, Patch, Bug'),
+        new role(5, 'Invoice_Access', 'Счета'),
+        new role(5, 'Main_Access', 'Страница "Главная"'),
+        new role(5, 'Management_Access', 'Управление'),
+        new role(5, 'MobilePhone_Access', 'Отчет "Мобильные телефоны"'),
+        new role(5, 'PTS_Access', 'ПТС'),
+        new role(5, 'ReserveTasks_Access', 'Резерв заданий'),
+        new role(5, 'Sales_Access', 'Продажи'),
+        new role(5, 'Vip_Access', 'VIP'),
+        new role(5, 'UploadFile_Access', 'Загрузка файлов'),
+        new role(5, 'Reports_Access', 'Отчеты'),
+        new role(6, 'Author_Self', 'Таблица. Показывать задания, в которых автором является текущий пользователь'),
+        new role(6, 'Providers_Select', 'Таблица. Показывать столбец "Регион"'),
+        new role(6, 'Responsible_NotAssigned', 'Таблица. Показывать неназначенные задания'),
+        new role(6, 'Responsible_Self', 'Таблица. Показывать задания, в которых пользователь является ответственным'),
+        new role(6, 'Task_Create', 'Карточка. Создание заданий'),
+        new role(6, 'Task_Delete_All', 'Удаление любых заданий'),
+        new role(6, 'Task_Delete_IsAuthor', 'Таблица. Удаление заданий, которые создал сам пользователь'),
+        new role(6, 'Task_Delete_IsResponsible', 'Таблица. Удаление заданий, где пользователь является ответственным'),
+        new role(6, 'Task_Providers_Home', 'Таблица. Показывать пользователей из домашнего региона (филиала)'),
+        new role(6, 'Task_Show_ResultButton', 'Карточка. Всегда отображать кнопку Результат'),
+        new role(6, 'Task_Update_IsAuthor', 'Карточка. Редактирование задания, если пользователь является автором'),
+        new role(6, 'Task_Update_IsResponsible', 'Карточка. Редактирование задания, если пользователь является ответственным'),
+        new role(6, 'Tasks_AutoAssign', 'Карточка. По умолчанию, выбирать ответственным за выполнение задания текущего пользователя'),
+        new role(6, 'Tasks_SelectByDefault_Uncomplete', 'Таблица. По умолчанию, не показывать  завершенные задания'),
+        new role(6, 'TaskType_Any', 'Таблица. Показывать задания всех типов'),
+        new role(6, 'TaskType_Appointment', 'Таблица. Показывать встречи'),
+        new role(6, 'TaskType_Call', 'Таблица. Показывать звонки'),
+        new role(6, 'TaskType_CommercialRequest', 'Таблица. Показывать коммерческие предложения'),
+        new role(6, 'TaskType_Demo', 'Таблица. Показывать дистанционные встречи'),
+        new role(6, 'TaskType_Invoice', 'Таблица. Показывать счета'),
+        new role(7, 'Company_Create', 'Создание'),
+        new role(7, 'Company_Delete', 'Удаление'),
+        new role(7, 'Company_Update', 'Редактирование блока информации в карточке организации'),
+        new role(8, 'Reports_Companies_Self', 'Компании. Показывать только отчеты текущего пользователя'),
+        new role(8, 'Reports_Providers_Home', 'Показывать пользователей из домашнего региона (филиала)'),
+        new role(8, 'Reports_Sales_Self', 'Продажи. Показывать только отчеты текущего пользователя'),
+        new role(8, 'Reports_Select', 'Компании. Показывать отчеты всех филиалов'),
+        new role(8, 'Reports_SendMail', 'Деньги и Баллы. Отправка отчетов руководству по email'),
+        new role(9, 'Send_Bug', 'Новые баги'),
+        new role(9, 'Send_Faq', 'Новые инструкции'),
+        new role(9, 'Send_Patch', 'Новые обновления'),
+        new role(10, 'Sale_Create', 'Создание'),
+        new role(10, 'Sale_Delete', 'Удаление'),
+        new role(10, 'Products_Self', 'Карточка организации и карточка заданий. Видеть только продажи из списка для данной группы'),
+        new role(11, 'Ticket_Browse_All', 'Просмотр всех тикетов. Настройки ответственного, автора  и СПП не будут работать'),
+        new role(11, 'Ticket_Browse_Author', 'Просмотр тикетов, где пользователь является автором'),
+        new role(11, 'Ticket_Browse_PSC', 'Просмотр тикетов, где ответственным является СПП'),
+        new role(11, 'Ticket_Browse_Responsible', 'Просмотр тикетов, где пользователь является ответственным'),
+        new role(11, 'Ticket_Edit_All', 'Изменять все тикеты. Настройки ответственного, автора и СПП не будут работать'),
+        new role(11, 'Ticket_Edit_Author', 'Изменять тикеты, где пользователь является автором'),
+        new role(11, 'Ticket_Edit_PSC', 'Изменять тикеты, где пользователь является СПП'),
+        new role(11, 'Ticket_Edit_Responsible', 'Изменять тикеты, где пользователь является ответственным'),
+        new role(11, 'Ticket_Responsible_All', 'Ставить тикеты на всех. Настройки ставить на себя, на свой отдел не будут работать'),
+        new role(11, 'Ticket_Responsible_Own', 'Ставить тикеты на свой отдел'),
+        new role(11, 'Ticket_Responsible_PSC', 'Ставить тикеты на СПП'),
+        new role(11, 'Ticket_Responsible_Self', 'Ставить тикеты на себя. Конфликтует с настройкой ставить на свой отдел')
+    ];
+
+    var result = '';
+
+    roles.forEach(function (el) {
+        result += '<div>' + el.toString() + '</div>';
+    });
+
+    $('#result').append(result);
+</script>

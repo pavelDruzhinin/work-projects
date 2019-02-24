@@ -1,0 +1,20 @@
+﻿@section scripts
+{
+    <script src="@Url.Content("~/Scripts/MyScripts/TS/BuildPhone.js")"></script>
+}
+
+
+<h2>Phone Test</h2>
+
+<span>Enter City:</span>
+<select id="citySelect"></select>
+
+<br />
+
+<span>Enter Phone:</span>
+<input id="inputPhone" type="text" />
+<span id="validSpan" style="display: none;">Invalid format. Please, input 6 or 11 digitals.</span>
+<button id="checkPhone">Check Phone</button>
+
+<span>Result Phone</span>
+<input id="outputPhone" type="text" />
