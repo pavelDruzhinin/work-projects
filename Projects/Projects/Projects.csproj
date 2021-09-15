@@ -53,7 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Contracts\IProjectsModel.cs" />
     <Compile Include="Commands\UpdateCommand.cs" />
+    <Compile Include="Models\ProjectsModel.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Services\Contracts\IDataService.cs" />
     <Compile Include="Services\DataService.cs" />
@@ -61,6 +63,9 @@
     <Compile Include="ViewModels\Contracts\IProjectViewModel.cs" />
     <Compile Include="ViewModels\ProjectsViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
+    <Compile Include="View\ProjectsView.xaml.cs">
+      <DependentUpon>ProjectsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +82,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\ProjectsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Contracts\IProjectModel.cs" />
