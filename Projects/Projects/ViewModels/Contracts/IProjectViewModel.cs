@@ -7,6 +7,4 @@ namespace Projects.ViewModels.Contracts
     {
         Status EstimateStatus { get; set; }
     }
-
-
 }
