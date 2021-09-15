@@ -6,5 +6,6 @@
         string Name { get; set; }
         double Estimate { get; set; }
         double Actual { get; set; }
+        void Update(IProject project);
     }
 }

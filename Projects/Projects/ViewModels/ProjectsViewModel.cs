@@ -15,15 +15,17 @@ namespace Projects.ViewModels
         public const string SELECTED_PROJECT_PROPERRTY_NAME
             = "SelectedProject";
 
-        private readonly IProjectModel _model;
+        private readonly IProjectsModel _model;
         private IProjectViewModel _selectedProject;
-        private Status _detailsEstimateStatus = Status.None;
+        private Status _detailsEstimateStatus
+            = Status.None;
         private bool _detailsEnabled;
         private readonly ICommand _updateCommand;
 
 
         public ObservableCollection<Project>
-            Projects { get { return _model.Projects; } }
+            Projects
+        { get { return _model.Projects; } }
 
         public int? SelectedValue
         {
@@ -98,7 +100,7 @@ namespace Projects.ViewModels
             get { return _updateCommand; }
         }
 
-        public ProjectsViewModel(IProjectModel projectModel)
+        public ProjectsViewModel(IProjectsModel projectModel)
         {
             _model = projectModel;
             _model.ProjectUpdated +=
@@ -117,11 +119,13 @@ namespace Projects.ViewModels
                                           ProjectEventArgs e)
         {
             GetProject(e.Project.ID).Update(e.Project);
-            if (SelectedProject == null || e.Project.ID != SelectedProject.ID)
-                return;
-
-            SelectedProject.Update(e.Project);
-            DetailsEstimateStatus = SelectedProject.EstimateStatus;
+            if (SelectedProject != null
+                && e.Project.ID == SelectedProject.ID)
+            {
+                SelectedProject.Update(e.Project);
+                DetailsEstimateStatus =
+                    SelectedProject.EstimateStatus;
+            }
         }
 
         private Project GetProject(int projectId)
